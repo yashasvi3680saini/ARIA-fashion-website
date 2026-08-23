@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARIA — Shopping Cart</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+  <div class="navbar__inner">
+
+    <a href="index.html" class="navbar__logo">ARIA</a>
+
+    <nav class="navbar__nav" aria-label="Main navigation">
+      <ul class="navbar__links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="index.html" class="nav-link">Western</a></li>
+        <li><a href="ethnic.html" class="nav-link">Ethnic</a></li>
+        <li><a href="index.html" class="nav-link">Accessories</a></li>
+        <li><a href="index.html" class="nav-link">Footwear</a></li>
+        <li><a href="index.html" class="nav-link">Sale</a></li>
+        <li><a href="index.html" class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="navbar__icons">
+
+      <a href="#" class="icon-link" aria-label="Search">
+        <svg viewBox="0 0 24 24" class="icon"
+             fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </a>
+
+      <a href="#" class="icon-link" aria-label="Wishlist">
+        <svg viewBox="0 0 24 24" class="icon"
+             fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 21s-7.5-4.6-10-9.1C.5 8.4 2.3 5 5.8 5c2 0 3.4 1.1 4.2 2.4C10.8 6.1 12.2 5 14.2 5c3.5 0 5.3 3.4 3.8 6.9C19.5 16.4 12 21 12 21z"></path>
+        </svg>
+      </a>
+
+      <a href="cart.html"
+         class="icon-link cart-nav-link"
+         aria-label="Cart">
+
+        <svg viewBox="0 0 24 24" class="icon"
+             fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="19" cy="21" r="1"></circle>
+          <path d="M2.5 3h2l2.6 12.4a2 2 0 0 0 2 1.6h8.4a2 2 0 0 0 2-1.6L21.5 7H6"></path>
+        </svg>
+
+        <span class="cart-badge" id="cartBadge">0</span>
+
+      </a>
+
+      <a href="login.html"
+         class="icon-link btn-login-nav"
+         aria-label="Account Login">
+
+        <svg viewBox="0 0 24 24" class="icon"
+             fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+
+        <span class="login-text">Login</span>
+
+      </a>
+
+    </div>
+  </div>
+</header>
+
+
+<main class="cart-page">
+
+  <div class="cart-page__inner">
+
+    <div class="cart-page__heading">
+      <p class="cart-page__eyebrow">Your Selection</p>
+
+      <h1 class="cart-page__title">
+        Shopping Cart
+      </h1>
+
+      <p class="cart-page__subtitle">
+        Review the pieces you've chosen before you continue.
+      </p>
+    </div>
+
+
+    <div class="cart-layout">
+
+      <section class="cart-card"
+               aria-labelledby="cart-items-heading">
+
+        <div class="cart-card__header">
+
+          <h2 id="cart-items-heading">
+            Your Items
+          </h2>
+
+          <span class="cart-count-text"
+                id="cartCountText">
+            0 items
+          </span>
+
+        </div>
+
+        <div id="cartItems"
+             class="cart-items">
+        </div>
+
+
+        <div id="cartEmpty"
+             class="cart-empty"
+             hidden>
+
+          <div class="cart-empty__icon">
+            🛍
+          </div>
+
+          <h3>
+            Your cart is empty
+          </h3>
+
+          <p>
+            Add something beautiful from our collection.
+          </p>
+
+          <a href="ethnic.html"
+             class="btn-gold">
+            Continue Shopping
+          </a>
+
+        </div>
+
+      </section>
+
+
+      <aside class="cart-card cart-summary"
+             aria-labelledby="summary-heading">
+
+        <h2 id="summary-heading">
+          Order Summary
+        </h2>
+
+        <div class="cart-summary__row">
+          <span>Subtotal</span>
+          <span id="subtotal">₹0</span>
+        </div>
+
+        <div class="cart-summary__row">
+          <span>Shipping</span>
+          <span id="shipping">₹0</span>
+        </div>
+
+        <div class="cart-summary__divider"></div>
+
+        <div class="cart-summary__total">
+          <span>Total</span>
+          <strong id="total">₹0</strong>
+        </div>
+
+        <p class="cart-summary__note">
+          <strong>Free shipping</strong>
+          on orders above ₹5,000.
+        </p>
+
+        <button type="button"
+                class="btn-gold cart-checkout-btn"
+                id="checkoutBtn">
+          Proceed to Checkout
+        </button>
+
+        <a href="ethnic.html"
+           class="btn-outline cart-continue">
+          Continue Shopping
+        </a>
+
+      </aside>
+
+    </div>
+  </div>
+
+</main>
+
+
+<div class="cart-toast"
+     id="cartToast">
+  Cart updated
+</div>
+
+
+<footer class="site-footer">
+
+  <div class="footer__newsletter">
+
+    <div class="footer__newsletter-inner">
+
+      <div class="footer__newsletter-text">
+
+        <p class="footer__eyebrow">
+          Stay in the Loop
+        </p>
+
+        <h2 class="footer__newsletter-heading">
+          Join the ARIA List
+        </h2>
+
+        <p class="footer__newsletter-copy">
+          New arrivals, private sales, and styling notes —
+          delivered to your inbox, nothing else.
+        </p>
+
+      </div>
+
+
+      <form class="footer__newsletter-form"
+            aria-label="Newsletter signup">
+
+        <input type="email"
+               placeholder="Enter your email"
+               required>
+
+        <button type="submit"
+                class="btn-gold">
+          Subscribe
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <div class="footer__main">
+
+    <div class="footer__col footer__col--brand">
+
+      <a href="index.html"
+         class="footer__logo">
+        ARIA
+      </a>
+
+      <p class="footer__brand-copy">
+        Considered fashion for the everyday.
+        Crafted in small runs, designed to last
+        beyond the season.
+      </p>
+
+    </div>
+
+
+    <nav class="footer__col"
+         aria-label="Shop">
+
+      <h3 class="footer__col-title">
+        Shop
+      </h3>
+
+      <ul class="footer__links">
+
+        <li>
+          <a href="index.html"
+             class="footer-link">
+            Women
+          </a>
+        </li>
+
+        <li>
+          <a href="index.html"
+             class="footer-link">
+            Men
+          </a>
+        </li>
+
+        <li>
+          <a href="ethnic.html"
+             class="footer-link">
+            Ethnic
+          </a>
+        </li>
+
+        <li>
+          <a href="index.html"
+             class="footer-link">
+            Accessories
+          </a>
+        </li>
+
+      </ul>
+
+    </nav>
+
+
+    <nav class="footer__col"
+         aria-label="Help">
+
+      <h3 class="footer__col-title">
+        Help
+      </h3>
+
+      <ul class="footer__links">
+
+        <li>
+          <a href="#"
+             class="footer-link">
+            Contact Us
+          </a>
+        </li>
+
+        <li>
+          <a href="#"
+             class="footer-link">
+            Shipping &amp; Returns
+          </a>
+        </li>
+
+        <li>
+          <a href="#"
+             class="footer-link">
+            FAQs
+          </a>
+        </li>
+
+        <li>
+          <a href="#"
+             class="footer-link">
+            Track Order
+          </a>
+        </li>
+
+      </ul>
+
+    </nav>
+
+
+    <nav class="footer__col"
+         aria-label="About">
+
+      <h3 class="footer__col-title">
+        About
+      </h3>
+
+      <ul class="footer__links">
+
+        <li>
+          <a href="#"
+             class="footer-link">
+            Our Story
+          </a>
+        </li>
+
+        <li>
+          <a href="#"
+             class="footer-link">
+            Sustainability
+          </a>
+        </li>
+
+        <li>
+          <a href="#"
+             class="footer-link">
+            Careers
+          </a>
+        </li>
+
+      </ul>
+
+    </nav>
+
+
+    <div class="footer__col">
+
+      <h3 class="footer__col-title">
+        Visit
+      </h3>
+
+      <address class="footer__address">
+        42 Ashford Lane<br>
+        Chandigarh, Punjab 160001<br>
+        India
+      </address>
+
+      <a href="mailto:hello@aria.com"
+         class="footer-link footer__email">
+        hello@aria.com
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <div class="footer__bottom">
+
+    <p class="footer__copyright">
+      &copy; 2026 ARIA. All rights reserved.
+    </p>
+
+    <ul class="footer__legal">
+
+      <li>
+        <a href="#"
+           class="footer-link footer-link--small">
+          Privacy Policy
+        </a>
+      </li>
+
+      <li>
+        <a href="#"
+           class="footer-link footer-link--small">
+          Terms of Service
+        </a>
+      </li>
+
+    </ul>
+
+  </div>
+
+</footer>
+
+
+<script>
+
+(function () {
+
+  const CART_KEY = 'ariaCart';
+
+  const itemsEl =
+    document.getElementById('cartItems');
+
+  const emptyEl =
+    document.getElementById('cartEmpty');
+
+  const countEl =
+    document.getElementById('cartCountText');
+
+  const subtotalEl =
+    document.getElementById('subtotal');
+
+  const shippingEl =
+    document.getElementById('shipping');
+
+  const totalEl =
+    document.getElementById('total');
+
+  const badgeEl =
+    document.getElementById('cartBadge');
+
+  const toastEl =
+    document.getElementById('cartToast');
+
+
+  function getCart() {
+
+    try {
+
+      return JSON.parse(
+        localStorage.getItem(CART_KEY)
+      ) || [];
+
+    } catch (e) {
+
+      return [];
+
+    }
+
+  }
+
+
+  function saveCart(cart) {
+
+    localStorage.setItem(
+      CART_KEY,
+      JSON.stringify(cart)
+    );
+
+  }
+
+
+  function money(value) {
+
+    return '₹' +
+      Number(value).toLocaleString('en-IN');
+
+  }
+
+
+  function showToast(message) {
+
+    toastEl.textContent = message;
+
+    toastEl.classList.add('is-visible');
+
+    clearTimeout(
+      window.cartToastTimer
+    );
+
+    window.cartToastTimer =
+      setTimeout(function () {
+
+        toastEl.classList.remove(
+          'is-visible'
+        );
+
+      }, 1400);
+
+  }
+
+
+  function render() {
+
+    const cart = getCart();
+
+    const count =
+      cart.reduce(
+        (sum, item) =>
+          sum + item.quantity,
+        0
+      );
+
+    const subtotal =
+      cart.reduce(
+        (sum, item) =>
+          sum + item.price * item.quantity,
+        0
+      );
+
+    const shipping =
+      subtotal === 0 || subtotal >= 5000
+        ? 0
+        : 99;
+
+    const total =
+      subtotal + shipping;
+
+
+    countEl.textContent =
+      count +
+      (count === 1 ? ' item' : ' items');
+
+
+    badgeEl.textContent = count;
+
+    badgeEl.classList.toggle(
+      'is-visible',
+      count > 0
+    );
+
+
+    subtotalEl.textContent =
+      money(subtotal);
+
+    shippingEl.textContent =
+      shipping === 0
+        ? 'FREE'
+        : money(shipping);
+
+    totalEl.textContent =
+      money(total);
+
+
+    itemsEl.innerHTML = '';
+
+    emptyEl.hidden =
+      cart.length !== 0;
+
+
+    if (!cart.length)
+      return;
+
+
+    cart.forEach(function (item, index) {
+
+      const row =
+        document.createElement('article');
+
+      row.className =
+        'cart-item';
+
+
+      row.innerHTML = `
+
+        <img
+          class="cart-item__image"
+          src="${item.image}"
+          alt="${item.name}"
+        >
+
+        <div>
+
+          <h3 class="cart-item__name">
+            ${item.name}
+          </h3>
+
+          <p class="cart-item__price">
+            ${money(item.price)}
+          </p>
+
+          <div class="cart-item__actions">
+
+            <div class="cart-qty">
+
+              <button
+                type="button"
+                data-action="minus"
+                data-index="${index}"
+                aria-label="Decrease quantity">
+                −
+              </button>
+
+              <span>
+                ${item.quantity}
+              </span>
+
+              <button
+                type="button"
+                data-action="plus"
+                data-index="${index}"
+                aria-label="Increase quantity">
+                +
+              </button>
+
+            </div>
+
+            <button
+              type="button"
+              class="cart-remove"
+              data-action="remove"
+              data-index="${index}">
+              Remove
+            </button>
+
+          </div>
+
+        </div>
+
+        <div class="cart-item__total">
+          ${money(item.price * item.quantity)}
+        </div>
+
+      `;
+
+
+      itemsEl.appendChild(row);
+
+    });
+
+  }
+
+
+  itemsEl.addEventListener(
+    'click',
+    function (event) {
+
+      const button =
+        event.target.closest(
+          'button[data-action]'
+        );
+
+      if (!button)
+        return;
+
+
+      const index =
+        Number(button.dataset.index);
+
+      const action =
+        button.dataset.action;
+
+      const cart =
+        getCart();
+
+
+      if (!cart[index])
+        return;
+
+
+      if (action === 'plus') {
+
+        cart[index].quantity += 1;
+
+      }
+
+
+      if (action === 'minus') {
+
+        cart[index].quantity -= 1;
+
+      }
+
+
+      if (
+        action === 'remove' ||
+        cart[index].quantity <= 0
+      ) {
+
+        cart.splice(index, 1);
+
+      }
+
+
+      saveCart(cart);
+
+      render();
+
+      showToast(
+        action === 'remove'
+          ? 'Item removed'
+          : 'Cart updated'
+      );
+
+    }
+  );
+
+
+  document
+    .getElementById('checkoutBtn')
+    .addEventListener(
+      'click',
+      function () {
+
+        if (!getCart().length) {
+
+          showToast(
+            'Your cart is empty'
+          );
+
+          return;
+
+        }
+
+        showToast(
+          'Checkout coming soon'
+        );
+
+      }
+    );
+
+
+  document
+    .querySelector(
+      '.footer__newsletter-form'
+    )
+    .addEventListener(
+      'submit',
+      function (event) {
+
+        event.preventDefault();
+
+        showToast(
+          'Thank you for subscribing!'
+        );
+
+        this.reset();
+
+      }
+    );
+
+
+  render();
+
+})();
+
+</script>
+
+</body>
+</html>

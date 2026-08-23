@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARIA — Account Authentication</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-white: #FFFFFF;
+      --color-offwhite: #F8F5F2;
+      --color-black: #222222;
+      --color-gold: #f57c7ce2;
+      --font-heading: 'Playfair Display', serif;
+      --font-body: 'Poppins', sans-serif;
+      --transition: 0.3s ease;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--color-offwhite);
+      color: var(--color-black);
+      min-height: 100vh;
+    }
+
+    /* ===== Split-screen layout ===== */
+    .auth-page {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .auth-visual {
+      flex: 1 1 50%;
+      min-height: 100vh;
+      background-color: var(--color-black); /* fallback until image is added */
+      background-image: url("https://i.pinimg.com/736x/ed/0f/c1/ed0fc1859b363ae18fe8c7338bc718e2.jpg");            /* <-- put your reference image path/URL here */
+      background-size: cover;
+      background-position: center;
+    }
+
+    .auth-panel {
+      flex: 1 1 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    /* ================================ */
+
+    .auth-container {
+      width: 100%;
+      max-width: 460px;
+      background: var(--color-white);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(34, 34, 34, 0.06);
+    }
+
+    .auth-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .auth-logo {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-decoration: none;
+      color: var(--color-black);
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+
+    .auth-tabs {
+      display: flex;
+      border-bottom: 1px solid rgba(34, 34, 34, 0.1);
+      margin-bottom: 28px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 12px;
+      background: none;
+      border: none;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(34, 34, 34, 0.5);
+      cursor: pointer;
+      position: relative;
+      transition: color var(--transition);
+    }
+
+    .tab-btn.active {
+      color: var(--color-black);
+    }
+
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--color-gold);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid rgba(34, 34, 34, 0.15);
+      border-radius: 6px;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      transition: border-color var(--transition);
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: var(--color-gold);
+    }
+
+    .captcha-wrap {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .captcha-box {
+      background: #eee;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-weight: bold;
+      font-size: 1.2rem;
+      letter-spacing: 0.25em;
+      text-decoration: line-through;
+      user-select: none;
+      color: #333;
+    }
+
+    .btn-refresh {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 16px;
+      background-color: var(--color-gold);
+      border: 1px solid var(--color-gold);
+      color: var(--color-black);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: var(--transition);
+    }
+
+    .btn-submit:hover {
+      background-color: transparent;
+      color: var(--color-black);
+    }
+
+    .form-panel { display: none; }
+    .form-panel.active { display: block; }
+
+    /* Stack on narrow screens so the form isn't squeezed */
+    @media (max-width: 800px) {
+      .auth-visual { display: none; }
+      .auth-panel { flex: 1 1 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="auth-page">
+    <!-- Left half: put your reference image here -->
+    <div class="auth-visual"></div>
+
+    <!-- Right half: existing login/signup card, unchanged -->
+    <div class="auth-panel">
+      <div class="auth-container">
+        <div class="auth-header">
+          <a href="index.html" class="auth-logo">ARIA</a>
+          <p style="font-size: 0.85rem; color: #666;">Welcome back to luxury fashion</p>
+        </div>
+
+        <div class="auth-tabs">
+          <button class="tab-btn active" onclick="switchTab('login')">Login</button>
+          <button class="tab-btn" onclick="switchTab('signup')">Sign Up</button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="login" class="form-panel active" onsubmit="return validateCaptcha(event)">
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" class="form-control" required placeholder="name@domain.com">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" class="form-control" required placeholder="••••••••">
+          </div>
+          <div class="form-group">
+            <label>Security Captcha</label>
+            <div class="captcha-wrap">
+              <div id="captchaCode" class="captcha-box"></div>
+              <button type="button" class="btn-refresh" onclick="generateCaptcha()" title="Refresh Captcha">🔄</button>
+            </div>
+            <input type="text" id="captchaInput" class="form-control" required placeholder="Enter captcha string">
+          </div>
+          <button type="submit" class="btn-submit">Sign In</button>
+        </form>
+
+        <!-- Sign Up Form -->
+        <form id="signup" class="form-panel" onsubmit="alert('Account created successfully!'); return false;">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" class="form-control" required placeholder="Your Name">
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" class="form-control" required placeholder="name@domain.com">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" class="form-control" required placeholder="••••••••">
+          </div>
+          <button type="submit" class="btn-submit">Create Account</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentCaptcha = "";
+
+    function generateCaptcha() {
+      const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      let code = "";
+      for (let i = 0; i < 6; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      currentCaptcha = code;
+      document.getElementById("captchaCode").innerText = code;
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.form-panel').forEach(panel => panel.classList.remove('active'));
+
+      if(tab === 'login') {
+        document.querySelectorAll('.tab-btn')[0].classList.add('active');
+        document.getElementById('login').classList.add('active');
+      } else {
+        document.querySelectorAll('.tab-btn')[1].classList.add('active');
+        document.getElementById('signup').classList.add('active');
+      }
+    }
+
+    function validateCaptcha(e) {
+      e.preventDefault();
+      const userInput = document.getElementById("captchaInput").value.trim();
+      if (userInput.toUpperCase() === currentCaptcha) {
+        alert("Login successful!");
+        window.location.href = "index.html";
+      } else {
+        alert("Invalid Captcha code! Please try again.");
+        generateCaptcha();
+      }
+    }
+
+    window.onload = generateCaptcha;
+  </script>
+</body>
+</html>
